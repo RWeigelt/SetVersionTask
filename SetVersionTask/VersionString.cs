@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace SetVersionTask
@@ -12,6 +13,26 @@ namespace SetVersionTask
             this.Minor = "0";
             this.Build = "0";
             this.Revision = "0";
+        }
+
+        public static VersionString FromFile(string filePath)
+        {
+            var rawTextLines = System.IO.File.ReadAllLines(filePath);
+
+            var versionTextLine = rawTextLines.FirstOrDefault(rawTextLine =>
+            {
+                var textLine = rawTextLine.TrimStart();
+                return !(String.IsNullOrEmpty(textLine) || textLine.StartsWith("//"));
+            });
+            if (versionTextLine == null) throw new Exception($"No version specified in file \"{filePath}\"");
+            try
+            {
+                return new VersionString(versionTextLine);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception($"Error reading version from file \"{filePath}\"", exception);
+            }
         }
 
         public VersionString(string version)

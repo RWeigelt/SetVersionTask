@@ -44,7 +44,7 @@ namespace SetVersionTaskTests
         {
             var r = new VersionUpdateRule(rule);
             var updated = r.Update(input);
-            Assert.AreEqual(rule, updated);
+            Assert.That(rule,Is.EqualTo(updated));
         }
 
         [TestCase("=.=.=.=", "1.2.3.4", "1.2.3.4")]
@@ -54,7 +54,7 @@ namespace SetVersionTaskTests
         {
             var r = new VersionUpdateRule(rule);
             var updated = r.Update(input);
-            Assert.AreEqual(expected, updated);
+            Assert.That(expected, Is.EqualTo(updated));
         }
 
         [TestCase("+.+.+.+", "1.2.3.4", "2.3.4.5")]
@@ -64,7 +64,7 @@ namespace SetVersionTaskTests
         {
             var r = new VersionUpdateRule(rule);
             var updated = r.Update(input);
-            Assert.AreEqual(expected, updated);
+            Assert.That(expected, Is.EqualTo(updated));
         }    
     }
 }

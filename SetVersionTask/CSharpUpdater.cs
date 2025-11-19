@@ -61,11 +61,19 @@ namespace SetVersionTask
             }
 
             var outlines = new List<string>();
+            var fileModified = false;
             foreach (var line in lines)
             {
-                outlines.Add(UpdateLine(line));
+                var originalLine = line;
+                var updatedLine = UpdateLine(line);
+                outlines.Add(updatedLine);
+                fileModified |= !String.Equals(originalLine, updatedLine);
             }
 
+            if (!fileModified)
+            {
+                return;
+            }
             succeeded = false;
             i = 0;
             while (!succeeded && i < 100)
